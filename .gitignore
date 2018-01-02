@@ -1,5 +1,6 @@
 tmp/*
 vendor/*
+src/config/config.local.neon
 .idea
 !.gitignore
 !.htaccess

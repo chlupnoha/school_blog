@@ -9,14 +9,21 @@ Installing
 Run following commands for creating 
         
 		cd my-app
-		mkdir log
-		composer create-project nette/sandbox my-app
-		cd my-app
+		mkdir tmp tmp/log tmp/temp
+		chmod 644 tmp/log tmp/temp
+		composer install
 
-Make directories `temp` and `log` writable. Navigate your browser
-to the `www` directory and you will see a welcome page. PHP 5.4 allows
-you run `php -S localhost:8888 -t www` to start the web server and
-then visit `http://localhost:8888` in your browser.
+It is also needed to create `src/config/config.local.neon`
+       
+        database:
+            dsn: 'mysql:host=127.0.0.1;dbname=school_blog'
+            user: root
+            password: root
+            options:
+                lazy: yes
+
+To create database you have to run `database.sql`
+
 
 It is CRITICAL that whole `app`, `log` and `temp` directories are NOT accessible
 directly via a web browser! See [security warning](http://nette.org/security-warning).
