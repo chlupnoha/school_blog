@@ -3,7 +3,6 @@
 namespace App\Presenters;
 
 use Nette;
-use App\Model;
 use Tracy\ILogger;
 
 
@@ -15,6 +14,7 @@ class ErrorPresenter extends BasePresenter
 
 	public function __construct(ILogger $logger)
 	{
+	    parent::__construct();
 		$this->logger = $logger;
 	}
 

@@ -8,9 +8,6 @@ class ArticlePresenter extends BasePresenter
       /** @var \App\Model\ArticleRepository @inject */
       public $article;
 
-      /** @var \App\Model\PictureRepository @inject */
-      public $picture;
-
       public function renderDefault( $url )
       {
             if( !$url )
@@ -30,7 +27,7 @@ class ArticlePresenter extends BasePresenter
             $this->template->category = $this->article->getFromTag( $a->category_id );
       }
 
-      public function setSEO( $article )
+      private function setSEO( $article )
       {
             $this->template->meta_title = $article->meta_title;
             $this->template->meta_description = $article->meta_description;
