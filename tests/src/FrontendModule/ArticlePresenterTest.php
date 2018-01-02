@@ -5,6 +5,8 @@ namespace Test\FrontendModule;
 require __DIR__ . '/../bootstrap.php';
 
 use Nette;
+use Nette\Application\Responses\RedirectResponse;
+use Nette\Application\Responses\TextResponse;
 use PHPUnit\Framework\TestCase;
 use Test\Presenter;
 
@@ -25,14 +27,14 @@ class ArticlePresenterTest extends TestCase
     public function testRenderDefaultWithoutURL() {
         $res = $this->tester->test('default');
 
-        $this->assertEquals(new Nette\Application\Responses\RedirectResponse("http:///blog"), $res);
+        $this->assertEquals(new RedirectResponse("http:///blog"), $res);
 
     }
 
     public function testRenderDefault(){
         $res = $this->tester->test('default', 'GET', ['url' => 'test']);
 
-        $this->assertTrue($res instanceof Nette\Application\Responses\TextResponse);
+        $this->assertTrue($res instanceof TextResponse);
     }
 
 }
