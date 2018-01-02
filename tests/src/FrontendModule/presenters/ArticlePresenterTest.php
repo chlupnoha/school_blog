@@ -2,7 +2,7 @@
 
 namespace Test\FrontendModule;
 
-require __DIR__ . '/../bootstrap.php';
+require __DIR__ . '/../../bootstrap.php';
 
 use Nette;
 use Nette\Application\Responses\RedirectResponse;
