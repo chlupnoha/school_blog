@@ -1,0 +1,36 @@
+#
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# http://nette.org/security-warning
+#
+parameters:
+
+
+php:
+	date.timezone: Europe/Prague
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+
+session:
+	expiration: 14 days
+
+extensions:
+	images: Carrooi\ImagesManager\DI\Extension
+
+includes:
+	- images.neon
+
+services:
+	- App\Model\UserManager
+	- App\Model\CategoryRepository
+	- App\Model\TagRepository
+	- App\Model\PictureRepository
+	- App\Model\ArticleRepository
+	- App\Model\Article_tagRepository
+	- App\Model\EmailRepository
+	- App\Forms\SignFormFactory
+	router: App\RouterFactory::createRouter

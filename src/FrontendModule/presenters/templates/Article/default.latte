@@ -1,0 +1,103 @@
+{* This is the welcome page, you can delete it *}
+
+{block head}
+<meta property="og:url"   content="{$baseUri}/{$article->url}" />
+<meta property="og:type"          content="article" />
+<meta property="og:title"         content="{$article->title}" />
+<meta property="og:description"   content="{$article->description}" />
+{if $article->picture_id}
+    <meta property="og:image"         content="{$baseUri}/{$article->ref('picture', 'picture_id')->name}" />
+{/if}
+{/block}
+{block content}
+
+<section class="cover-wrapper detail">
+    <div class="cover">
+
+        <div class="header-image detail">
+            <a n:href="Blog:default">
+                <img src="{$basePath}/images/logo.png">
+            </a>
+        </div>
+
+    </div>
+</section>
+<section class="content blog-post-listing">
+    {*
+        <div class="container back">
+            <a class="btn-back" n:href="Homepage:default">zpět</a>
+    </div>
+    *}
+
+    <div class="container clearfix">
+        <div class="article detail">
+
+            <div class="post-thumb">
+                <img class="responsive-image" src="{$basePath}{if $article->picture_id}/{$article->ref('picture', 'picture_id')->name} {else}/images/test.png{/if}">
+            </div>
+            <div class="article-text">
+                <h1>{$article->title}</h1>
+
+                <div class="textuu">
+                    {$article->content|noescape }
+                </div>
+                
+                <div class="text-left">
+                    <div class="fb-like" data-href="{$baseUri}/{$article->url}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+                </div>
+
+                <div class="buttons">
+                    <a class="btn-paging" n:href="Blog:default">zpět na blog</a>
+                    {if $next}
+                        <a class="btn-paging" n:href="Article:default, $next->url">další článek</a>
+                    {/if}
+                </div>
+            </div>
+
+
+            <div class="category-text-ref">
+
+                <div class="category-text">
+                    ČLÁNKY Z KATEGORIE
+                </div>
+
+                {foreach $category as $c}
+                    <a n:href="Article:default, $c->url">
+                        <article class="post topic-company">
+                            <div class="post-thumb">
+                                <img class="article-image"  src="{$basePath}{if $c->picture_blog_id}/{$c->ref('picture', 'picture_blog_id')->name} {else}/images/test.png{/if}">
+                            </div>
+                            <h1 class="post-title">{$c->title}</h1>
+                        </article>
+                    </a>
+                {/foreach}
+            </div>
+        </div>
+        <div class="row category detail">
+
+            <div class="menu-right">
+                OBLÍBENÉ ČLÁNKY 
+            </div>
+
+            {foreach $favourite as $f}
+                <a n:href="Article:default, $f->url">
+                    <article class="post topic-company">
+                        <div class="post-thumb">
+                            <img class="article-image" src="{$basePath}{if $f->picture_blog_id}/{$f->ref('picture', 'picture_blog_id')->name} {else}/images/test.png{/if}">
+                        </div>
+                        <h1 class="post-title">{$f->title}</h1>
+                    </article>
+                </a>
+            {/foreach}
+        </div>
+    </div>
+</section>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v2.5&appId=1114341641933027";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{/block}

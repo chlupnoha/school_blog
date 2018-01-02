@@ -1,0 +1,19 @@
+{define title}{/define}
+
+{block content}
+
+    <div class="row header-mb">
+        <div class="col-sm-8">
+            {if $presenter->action == 'create'}
+                <h2>Vytvořit Tag</h2>
+            {else}
+                <h2>Editovat Tag</h2>
+            {/if}
+        </div>
+        <div class="col-xs-4 text-right">
+            <a n:href="default" class="btn btn-info mt-20">Zpět na výpis</a>
+        </div>
+    </div>
+    {control tagForm}
+
+{/block}

@@ -1,0 +1,99 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+*}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>{ifset $meta_title}{$meta_title}{else}Webonio blog{/ifset}</title>
+
+        <meta property="fb:app_id" content="1114341641933027" />
+        {block head}{/block}
+        
+        <link rel="stylesheet" href="{$basePath}/css/style.css">
+        <link rel="apple-touch-icon" sizes="57x57" href="{$basePath}/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="{$basePath}/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="{$basePath}/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="{$basePath}/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="{$basePath}/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="{$basePath}/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="{$basePath}/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="{$basePath}/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="{$basePath}/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="{$basePath}/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="{$basePath}/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="{$basePath}/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="{$basePath}/favicon-16x16.png">
+        <link rel="manifest" href="{$basePath}/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff ">
+        <meta name="msapplication-TileImage" content="{$basePath}/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff ">
+
+        <meta name="viewport" content="width=device-width">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {ifset $meta_description}<meta name="description" content="{$meta_description}">{else}<meta name="description" content="Pomáháme milionům uživatelů s online podnikáním. Denní dávka motivace, inspirace a užitečných informací, které vám usnadní cestu za vaším snem.">{/ifset}
+        {ifset $meta_keywords}<meta name="keywords" content="{$meta_keywords}">{else}<meta name="keywords" content="ppc, seo,facebook, marketing">{/ifset}
+
+        <script src="{$basePath}/js/jquery-1.11.3.min.js"></script>
+        <script src="{$basePath}/js/netteForms.min.js"></script>
+        <script src="{$basePath}/js/nette.ajax.js"></script>
+        <script src="{$basePath}/js/main.js"></script>
+
+        <link href="{$basePath}/dist/css/select2.css" rel="stylesheet" />
+        <script src="{$basePath}/dist/js/select2.min.js"></script>
+
+        <link href="{$basePath}/font-awesome-4.5.0/css/font-awesome.css" rel="stylesheet">
+
+        <link href="{$basePath}/css/blog.css" rel="stylesheet">
+        
+    </head>
+
+    <body>
+        {foreach $flashes as $flash}
+            <div class="alert alert-{$flash->type}">
+                {$flash->message}
+            </div>
+        {/foreach}
+        {include content}
+        <div id="footer">
+            <div class="webonio-c">
+                <div class="webonio-c text">
+                    <div>
+                        © 2015-2016 Webonio
+                    </div>
+                </div>
+                <div class="webonio-c image">
+                    <div>
+                        <a n:href="Blog:default">
+                            <img src="{$basePath}/images/logo_footer.png">
+                        </a>
+                    </div>
+                </div>
+                <div class="webonio-c icons">
+                    <div>
+                        <a href="https://www.facebook.com/webonio.cz">
+                            <img class="footer-icon" src="{$basePath}/images/fb.png">
+                        </a>
+                        <a href="https://twitter.com/Webonio_cz" >
+                            <img class="footer-icon" src="{$basePath}/images/twitter.png"> 
+                        </a>
+                        <a href="https://www.instagram.com/webonio.cz">
+                            <img class="footer-icon" src="{$basePath}/images/insta.png">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {block scripts}
+        <script>
+            $( function () {
+                $.nette.init();
+            } );
+        </script>
+        {/block}
+    </body>
+</html>

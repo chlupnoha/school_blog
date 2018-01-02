@@ -1,0 +1,223 @@
+{* This is the welcome page, you can delete it *}
+
+{block head}
+<meta property="og:url"           content="http://webonio.cz/blog" />
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="Webonio blog" />
+<meta property="og:description"   content="Pomáháme milionům uživatelů s online podnikáním. Denní dávka motivace, inspirace a užitečných informací, které vám usnadní cestu za vaším snem." />
+<meta property="og:image"         content="{$baseUri}/www/logo.png" />
+{/block}
+
+{block content}
+{snippet content}
+    <section class="cover-wrapper blog half">
+        <div class="cover">
+            <div class="container">
+
+                <div class="header-image">
+                    <a n:href="Blog:default">
+                        <img src="{$basePath}/images/logo.png">
+                    </a>
+                </div>
+
+                <div class="topics">
+                    <ul>
+                        {foreach $tags as $t}
+                            {*<li class="active"><a class="active" href="#home">Home</a></li>*}
+                            <li {if $t->id == $tag_id}class="active"{/if} ><a class="ajax {if $t->id == $tag_id}active{/if}" n:href="filter! 0, $t->id, 0">{$t->name}</a></li>
+                            {/foreach}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content blog-post-listing">
+        <div class="container clearfix">
+
+            <div class="row category tags">
+                <ul>
+                    {*<a style="text-decoration: none;" class="ajax" n:href="filter! 0, 0,0"><li class="menu"><i>KATEGORIE</i></li></a>*}
+                    <li class="menu" id="tag"><i>Tagy</i></li>
+                        {foreach $tags as $c}
+                        <li><a class="ajax {if $category_id==$c->id}active{/if} tag-item" n:href="filter! 0, $c->id, 0 ">{$c->name}</a></li>
+                        {/foreach}
+                </ul>
+            </div>
+
+            <div class="articles">
+                {var $c = 0}
+                {foreach $articles as $arts}
+                    <div class="row clearfix">
+                        {foreach $arts as $a}
+                            <article class="post">
+                                <div class="post-thumb">
+                                    <a n:href="Article:default, $a->url">
+                                        <img class="article-image" src="{$basePath}{if $a->picture_blog_id}/{$a->ref('picture', 'picture_blog_id')->name} {else}/images/test.png{/if}">
+                                    </a>
+                                </div>
+                                <div class="con" id="content-{$c}">
+                                    <h1 class="post-title">{$a->title}</h1>
+                                    <p class="post-excerpt">{$a->description}</p>
+                                </div>
+                                {if $a->dont_publish_detail}
+                                    <a class="btn-colored">Celý článek</a>                                    
+                                {else}
+                                    <a class="btn-colored" n:href="Article:default, $a->url">Celý článek</a>
+                                {/if}
+                            </article>
+                            {var $c += 1}
+                        {/foreach}
+                    </div>
+                {/foreach}
+
+                <div class="container clearfix">
+                    {if $count >= 0}
+                        <div class="pagination">
+                            <ul>
+                                <li>
+                                    <a {if $offset != 0} href="{link filter! $category_id, $tag_id, $offset-1}" class="ajax" {/if}
+                                                         <strong><</strong>
+                                    </a>
+                                </li>
+
+                                {for $c=0; $c < $count; $c++}
+                                    <li> 
+                                        <a {if $c==$offset}class="active" {else}  href="{link filter! $category_id, $tag_id, $c}" class="ajax" {/if}>{$c+1}</a>
+                                    </li>
+                                {/for}
+
+                                <li>
+                                    <a {if $offset != $count-1} class="ajax" href="{link filter! $category_id, $tag_id, $offset+1}" {/if}
+                                                                <strong>></strong>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    {/if}
+                </div>
+                {*
+                <div class="newstler text-center">
+                        Získejte informace ke spuštění mezi prvními...
+                        
+                    <div class="newstler-con">
+                    {form newstler}
+                        {input email, "class" => "newstler-input"}
+                        {input send, "class" => "btn-colored"}
+                    {/form}
+                </div>
+                </div>
+                *}
+            </div>
+            <!--
+                        <div class="row category">
+                            <ul>
+            {*<a style="text-decoration: none;" class="ajax" n:href="filter! 0, 0,0"><li class="menu"><i>KATEGORIE</i></li></a>*}
+            <li class="menu" id="category"><i>ONLINE KURZY</i></li>
+            {foreach $categories as $c}
+                {*<li><a id="cat" class="ajax {if $category_id==$c->id}active{/if} cat-item" n:href="filter! $c->id, 0, 0 ">{$c->name}</a></li>*}
+                <li><a id="cat" class="ajax">Spouštíme v únoru!</a></li>
+            {/foreach}
+    </ul>
+    <div class="row category" id="e-book">
+        <ul>
+            {*<a style="text-decoration: none;" class="ajax" n:href="filter! 0, 0,0"><li class="menu"><i>KATEGORIE</i></li></a>*}
+            <li class="menu" id="category"><i>E-BOOKY</i>
+                <div class="text-center">
+                <div><img src="{$basePath}/images/book.png" class="image-book"></div>
+                <div><img src="{$basePath}/images/book.png" class="image-book"></div>
+                </div>
+        </ul>
+    </div>
+</div>
+            -->
+            <div class="row category">
+
+                <div class="menu-right">
+                    OBLÍBENÉ ČLÁNKY 
+                </div>
+
+                {foreach $favourite as $f}
+                    <a n:href="Article:default, $f->url">
+                        <article class="post topic-company">
+                            <div class="post-thumb">
+                                <img class="article-image" src="{$basePath}{if $f->picture_blog_id}/{$f->ref('picture', 'picture_blog_id')->name} {else}/images/test.png{/if}">
+                            </div>
+                            <h1 class="post-title">{$f->title}</h1>
+                        </article>
+                    </a>
+                {/foreach}
+            </div>
+
+        </div>
+    </section>
+    <script>
+        $( "#tag" ).click( function () {
+            if ( $( document ).width() < 1170 ) {
+                if ( $( ".tag-item" ).is( ":visible" ) ) {
+                    $( ".tag-item" ).css( "display", "none" );
+                } else {
+                    $( ".tag-item" ).css( "display", "block" );
+                }
+            }
+        } );
+        $( "#category" ).click( function () {
+            if ( $( document ).width() < 1170 ) {
+                if ( $( ".cat-item" ).is( ":visible" ) ) {
+                    $( ".cat-item" ).css( "display", "none" );
+                } else {
+                    $( ".cat-item" ).css( "display", "block" );
+                }
+            }
+        } );
+    </script>
+    <script>
+        var small = false;
+        $( window ).resize( function () {
+            if ( $( document ).width() < 1170 ) {
+                small = true;
+                $( '.con' ).height( 'auto' );
+            } else if ( small ) {
+                small = false;
+                resizeArticles();
+            }
+
+            console.log( 'resize ' + $( document ).width() );
+        } );
+
+        $( document ).ready( function () {
+            if ( $( document ).width() > 1170 ) {
+                resizeArticles();
+            }
+        } );
+
+        function resizeArticles() {
+            var maxHeight = 0;
+            for ( var i = 1; i < {count($articles)*3} + 1; i++ ) {
+
+                var height = $( '#content-' + ( i - 1 ) ).height();
+
+
+                if ( height > maxHeight ) {
+                    maxHeight = height;
+                }
+                if ( i % 3 === 0 && i !== 0 ) {
+                    for ( var j = i - 3; j < i; j++ ) {
+                        console.log( "before " + $( '#content-' + j ).height() + " max " + maxHeight );
+                        $( '#content-' + j ).height( maxHeight + 15 );
+                    }
+                    maxHeight = 0;
+                }
+                if ( height === null ) {
+                    for ( var j = i - ( i % 3 ); j < i; j++ ) {
+                        console.log( maxHeight );
+                        console.log( j );
+                        $( '#content-' + j ).height( maxHeight + 15 );
+                    }
+                }
+            }
+        }
+
+    </script>
+{/snippet}
+
+{/block}

@@ -1,0 +1,59 @@
+{define title}{/define}
+
+{block content}
+<div class="row header-mb">
+    <div class="col-sm-8">
+        {if $presenter->action == 'create'}
+            <h2>Vytvořit Článek</h2>
+        {else}
+            <h2>Editovat Článek</h2>
+        {/if}
+    </div>
+    <div class="col-xs-4 text-right">
+        <a n:href="default" class="btn btn-info mt-20">Zpět na výpis</a>
+    </div>
+</div>
+{control articleForm}
+
+<div class="row">
+    <div class="col-12">
+        <div class="col-sm-6 text-center">
+            <div class="block">Hlavní obrázek</div>
+            <img id="picture_id" class="img-rounded" width="500px" src="{ifset $article->picture_id} {$baseUri}/{$article->ref("picture", picture_id)->name} {else} http://placehold.it/400x400&text=_{/ifset}">
+        </div>
+        <div class="col-sm-6 text-center">
+            <div class="block">Blog obrázek</div>
+            <img id="picture_blog_id" class="img-rounded" src="{ifset $article->picture_blog_id} {$baseUri}/{$article->ref("picture", picture_blog_id)->name} {else} http://placehold.it/200x200&text=_{/ifset}">
+        </div>
+    </div>
+</div>
+<script>
+    $( document ).ready( function () {
+        $( '#frm-articleForm-tag_id' ).select2();
+        $( '#frm-articleForm-article_favourite' ).select2();
+        $( '#frm-articleForm-article_from_category' ).select2();
+        $( '#frm-articleForm-content' ).summernote( {
+            height: 200,
+            toolbar: [
+                // [groupName, [list of button]]
+                [ 'style', [ 'bold', 'italic', 'underline', 'clear' ] ],
+                [ 'font', [ 'strikethrough', 'superscript', 'subscript' ] ],
+                [ 'fontsize', [ 'fontsize', 'style'] ],
+                [ 'color', [ 'color' ] ],
+                [ 'para', [ 'ul', 'ol', 'paragraph' ] ],
+                [ 'height', [ 'height' ] ],
+                [ 'insert', [ 'link', 'picture', 'fullscreen' ] ]
+            ]
+        } );
+        $( '#frm-articleForm-content' ).summernote( "code", {$article ? $article->content : ""} );
+
+        $( "#frm-articleForm-picture_id" ).change( function () {
+            readURL( this, '#picture_id', 400 );
+        } );
+        $( "#frm-articleForm-picture_blog_id" ).change( function () {
+            readURL( this, '#picture_blog_id', 200 );
+        } );
+    } );
+
+</script>
+{/block}

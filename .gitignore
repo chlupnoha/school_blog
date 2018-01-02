@@ -1,0 +1,8 @@
+tmp/*
+vendor/*
+.idea
+!.gitignore
+!.htaccess
+!web.config
+composer.lock
+app/config/config.local.neon

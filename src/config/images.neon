@@ -1,0 +1,3 @@
+images:
+    basePath: %appDir%/../www
+    baseUrl: improovio/www
