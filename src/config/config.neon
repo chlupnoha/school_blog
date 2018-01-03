@@ -32,5 +32,7 @@ services:
 	- App\Model\ArticleRepository
 	- App\Model\Article_tagRepository
 	- App\Model\EmailRepository
+
 	- App\Forms\SignFormFactory
+	- App\Forms\NewsletterForm
 	router: App\RouterFactory::createRouter
