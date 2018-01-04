@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="buttons">
-                    <a class="btn-paging" n:href="Blog:default">zpět na blog</a>
+                    <a id="back-to-blog" class="btn-paging" n:href="Blog:default">zpět na blog</a>
                     {if $next}
                         <a class="btn-paging" n:href="Article:default, $next->url">další článek</a>
                     {/if}
