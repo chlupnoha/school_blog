@@ -29,6 +29,13 @@ It is CRITICAL that whole `app`, `log` and `temp` directories are NOT accessible
 directly via a web browser! See [security warning](http://nette.org/security-warning).
 
 
+Testing
+----------
+For selenium tests the selenium server is required(http://www.seleniumhq.org/download/) and runned by following command:
+    
+		java -jar selenium-server-standalone-3.8.1.jar -enablePassThrough false
+
+
 License
 -------
 - Nette: New BSD License or GPL 2.0 or 3.0 (http://nette.org/license)

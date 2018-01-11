@@ -34,13 +34,13 @@
 		"dg/adminer-custom": "~1.6",
 		"carrooi/images-manager": "2.1.1",
 		"twbs/bootstrap": "^3.3",
-		"mesour/datagrid": "v2.0.7.1",
-		"phpunit/phpunit-selenium": "^4.1"
+		"mesour/datagrid": "v2.0.7.1"
 	},
 	"require-dev": {
 		"nette/tester": "~1.3",
 		"phpunit/phpunit": "^6.5",
-		"facebook/webdriver": "*"
+		"facebook/webdriver": "*",
+		"phpunit/phpunit-selenium": "^4.1"
 	},
 
 	"autoload": {

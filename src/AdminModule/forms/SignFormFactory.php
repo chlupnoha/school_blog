@@ -19,10 +19,7 @@ class SignFormFactory extends Nette\Object
 	}
 
 
-	/**
-	 * @return Form
-	 */
-	public function create()
+	public function create() : Form
 	{
 		$form = new Form;
 		$form->addText('username', 'Username:')
@@ -30,8 +27,6 @@ class SignFormFactory extends Nette\Object
 
 		$form->addPassword('password', 'Password:')
 			->setRequired('Please enter your password.');
-
-		$form->addCheckbox('remember', 'Keep me signed in');
 
 		$form->addSubmit('send', 'Sign in');
 
@@ -42,12 +37,6 @@ class SignFormFactory extends Nette\Object
 
 	public function formSucceeded(Form $form, $values)
 	{
-		if ($values->remember) {
-			$this->user->setExpiration('14 days', FALSE);
-		} else {
-			$this->user->setExpiration('120 minutes', TRUE);
-		}
-
 		try {
 			$this->user->login($values->username, $values->password);
 		} catch (Nette\Security\AuthenticationException $e) {

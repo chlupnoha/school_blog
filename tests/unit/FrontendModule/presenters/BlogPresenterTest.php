@@ -7,7 +7,7 @@ use Nette\Environment;
 use PHPUnit\Framework\TestCase;
 use Test\Presenter;
 
-require __DIR__ . '/../../bootstrap.php';
+require __DIR__ . '/../../../bootstrap.php';
 
 class BlogPresenterTest extends TestCase
 {
