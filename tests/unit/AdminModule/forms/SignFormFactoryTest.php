@@ -3,7 +3,7 @@
 namespace Test\FrontendModule;
 
 use App\Forms\SignFormFactory;
-use App\Model\UserManager;
+use App\Model\UserRepository;
 use Nette\Environment;
 use Nette\Security\User;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ class SignFormFactoryTest extends TestCase
     /** @var SignFormFactory */
     private $signInForm;
 
-    /** @var UserManager */
+    /** @var UserRepository */
     private $userManager;
 
     /** @var User */
@@ -25,7 +25,7 @@ class SignFormFactoryTest extends TestCase
     public function __construct() {
         parent::__construct();
         $this->signInForm = Environment::getContext()->getByType(SignFormFactory::class);
-        $this->userManager = Environment::getContext()->getByType(UserManager::class);
+        $this->userManager = Environment::getContext()->getByType(UserRepository::class);
         $this->user = Environment::getContext()->getByType(User::class);
     }
 

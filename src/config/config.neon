@@ -25,7 +25,7 @@ includes:
 	- images.neon
 
 services:
-	- App\Model\UserManager
+	- App\Model\UserRepository
 	- App\Model\CategoryRepository
 	- App\Model\TagRepository
 	- App\Model\PictureRepository

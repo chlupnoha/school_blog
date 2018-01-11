@@ -6,7 +6,7 @@ use App\Forms\NewsletterForm;
 use App\Model\ArticleRepository;
 use App\Model\CategoryRepository;
 use App\Model\TagRepository;
-use App\Model\UserManager;
+use App\Model\UserRepository;
 use Nette\Application\UI\Form;
 
 class BlogPresenter extends BasePresenter
@@ -24,7 +24,7 @@ class BlogPresenter extends BasePresenter
       /** @var NewsletterForm @inject */
       public $newsletterForm;
 
-      /** @var UserManager @inject */
+      /** @var UserRepository @inject */
       public $user;
 
 	  /** @persistent */
