@@ -35,4 +35,5 @@ services:
 
 	- App\Forms\SignFormFactory
 	- App\Forms\NewsletterForm
+	- App\Forms\UserFormFactory
 	router: App\RouterFactory::createRouter

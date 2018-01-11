@@ -35,7 +35,7 @@ CREATE TABLE `article` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `article` (`id`, `picture_blog_id`, `picture_id`, `title`, `content`, `description`, `category_id`, `created_at`, `url`, `meta_title`, `meta_description`, `meta_keywords`, `most_readed`, `published`, `dont_publish_detail`, `published_on`, `sort`, `click`) VALUES
-(59,	NULL,	NULL,	'test test',	'test test',	'test test',	NULL,	'2018-01-04 00:07:45',	'test',	'test',	'test',	'test',	0,	1,	0,	NULL,	0,	45);
+  (59,	NULL,	NULL,	'test test',	'test test',	'test test',	NULL,	'2018-01-11 20:08:17',	'test',	'test',	'test',	'test',	0,	1,	0,	NULL,	0,	75);
 
 DROP TABLE IF EXISTS `article_tag`;
 CREATE TABLE `article_tag` (
@@ -57,8 +57,8 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 INSERT INTO `category` (`id`, `name`) VALUES
-(2,	'PPC seriál'),
-(3,	'SEO seriál');
+  (2,	'PPC seriál'),
+  (3,	'SEO seriál');
 
 DROP TABLE IF EXISTS `email`;
 CREATE TABLE `email` (
@@ -84,12 +84,12 @@ CREATE TABLE `tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 INSERT INTO `tag` (`id`, `name`) VALUES
-(2,	'FACEBOOK'),
-(4,	'SEO'),
-(6,	'WEB'),
-(8,	'PPC'),
-(9,	'Vše'),
-(10,	'test2');
+  (2,	'FACEBOOK'),
+  (4,	'SEO'),
+  (6,	'WEB'),
+  (8,	'PPC'),
+  (9,	'Vše'),
+  (10,	'test2');
 
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test` (
@@ -103,11 +103,13 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_czech_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_czech_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
-INSERT INTO `user` (`id`, `name`, `password`) VALUES
-(7,	'admin',	'$2y$10$w/jXAeOizsCSRMHdtxjPde8.exNPj6lTovppujbJ7JOAKLfo3fdye');
+INSERT INTO `user` (`id`, `name`, `description`, `password`) VALUES
+  (7,	'admin',	'',	'$2y$10$w/jXAeOizsCSRMHdtxjPde8.exNPj6lTovppujbJ7JOAKLfo3fdye');
 
--- 2018-01-04 08:47:07
+-- 2018-01-11 20:24:54

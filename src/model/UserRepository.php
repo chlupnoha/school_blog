@@ -35,4 +35,10 @@ class UserRepository extends Repository implements Nette\Security\IAuthenticator
 		return new Identity($row['id'], [], $arr);
 	}
 
+	public function add($data)
+    {
+        $data['password'] = Passwords::hash($data['password']);
+        return $this->getTable()->insert( $data );
+    }
+
 }
