@@ -20,7 +20,7 @@ class UserFormFactory extends Nette\Object
         return $this->userId;
     }
 
-    public function setUserId(int $userId) {
+    public function setUserId($userId) {
         $this->userId = $userId;
     }
 
@@ -50,14 +50,15 @@ class UserFormFactory extends Nette\Object
 
     public function formSubmit( Form $form )
     {
-        if( $this->userId ){
-            $this->userManager->update( ['id' => $this->userId], $form->getValues() );
-//            $form->getPresenter()->flashMessage( 'Uzivatel upraven.', 'success' );
-        }else {
-            $this->userManager->add( $form->getValues() );
-//            $form->getPresenter()->flashMessage( 'Uzivatel přidán.', 'success' );
+        try{
+            if( $this->userId ){
+                $this->userManager->update( ['id' => $this->userId], $form->getValues() );
+            }else {
+                $this->userManager->add( $form->getValues() );
+            }
+        }catch (Nette\Database\UniqueConstraintViolationException $e){
+            $form->addError('Aktualni jmeno jiz existuje.');
         }
-//        $form->getPresenter()->redirect( 'Tag:default' );
     }
 
 }
