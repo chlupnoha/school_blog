@@ -35,5 +35,4 @@ class ArticleWorkflowTest extends TestCase
         $this->driver->quit();
     }
 
-
 }

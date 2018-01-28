@@ -28,7 +28,8 @@ class SignFormFactory extends Nette\Object
 		$form->addPassword('password', 'Password:')
 			->setRequired('Please enter your password.');
 
-		$form->addSubmit('send', 'Sign in');
+		$form->addSubmit('send', 'Sign in')
+            ->setAttribute('id', 'sumbit');
 
 		$form->onSuccess[] = array($this, 'formSucceeded');
 		return $form;

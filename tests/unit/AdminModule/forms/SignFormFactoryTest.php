@@ -29,13 +29,24 @@ class SignFormFactoryTest extends TestCase
         $this->user = Environment::getContext()->getByType(User::class);
     }
 
-    public function testInvalidLogin(){
+    /** @dataProvider invalidLoginProvider */
+    public function testInvalidLogin($name, $password){
         $this->signInForm->create()->setDefaults([
-            'username' => 'UNKNOWN',
-            'password' => 'UNKNOWN'
+            'username' => $name,
+            'password' => $password
         ]);
 
         $this->assertNull($this->user->getId());
+    }
+
+    public static function invalidLoginProvider(){
+        $result = array();
+        $logins = file_get_contents(__DIR__ . "/../logins.txt");
+        foreach (explode("  ", $logins) as $l){
+            $result[] = [$l[0], $l[1]];
+        }
+        dump($result);
+        return $result;
     }
 
 }

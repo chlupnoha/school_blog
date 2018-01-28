@@ -12,6 +12,7 @@ $configurator->setTempDirectory(__DIR__ . '/../tmp/temp');
 $configurator->createRobotLoader()
 	->addDirectory(__DIR__ . '/../src')
     ->addDirectory(__DIR__ . '/unit/utils/')
+    ->addDirectory(__DIR__ . '/../tests/acceptance')
 	->register();
 
 $configurator->addConfig(__DIR__ . '/../src/config/config.neon');

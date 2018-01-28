@@ -29,7 +29,8 @@ class UserPresenter extends BaseAdminPresenter
     public function createComponentUserForm()
     {
         $form = $this->userForm->create();
-        $form->onSuccess[] = array($this, 'formSuccess');
+        $form->onSuccess[] = array($this, 'formSubmit');
+        return $form;
     }
 
     public function formSubmit()

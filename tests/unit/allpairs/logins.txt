@@ -1,0 +1,4 @@
+jmeno	heslo
+jmeno	HESLO2
+JMENO2	heslo
+JMENO2	HESLO2

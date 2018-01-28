@@ -13,10 +13,10 @@ class UserFormFactory extends Nette\Object
 	/** @var UserRepository */
 	private $userManager;
 
-	/** @var  int */
+	/** @var  int|null */
 	private $userId;
 
-    public function getUserId(): int {
+    public function getUserId() {
         return $this->userId;
     }
 
@@ -31,16 +31,24 @@ class UserFormFactory extends Nette\Object
 
 	public function create() : Form
 	{
+	    $user = $this->userManager->find('id', $this->userId)->fetch();
+
 		$form = new Form;
 		$form->addText('name', 'Username:')
 			->setRequired('Please enter your username.');
 
-		$form->addPassword('password', 'Password:')
-			->setRequired('Please enter your password.');
+		if(!$user){
+            $form->addPassword('password', 'Password:')
+                ->setRequired('Please enter your password.');
+        }
 
         $form->addText('description', 'Description:');
 
         $form->addSubmit( 'create', 'Vytvořit' );
+
+        if($user){
+            $form->setDefaults($user);
+        }
 
         $form->setRenderer( new Bs3FormRenderer() );
 
