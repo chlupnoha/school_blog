@@ -2,6 +2,8 @@
 
 namespace App\AdminModule\Presenters;
 
+use App\Forms\TagFormFactory;
+use App\Grids\TagGridFactory;
 use Nette\Application\UI\Form;
 use Nextras\Forms\Rendering\Bs3FormRenderer;
 use Mesour\DataGrid\NetteDbDataSource,
@@ -14,83 +16,48 @@ use Mesour\DataGrid\NetteDbDataSource,
 class TagPresenter extends BaseAdminPresenter
 {
 
-		/** @var \App\Model\TagRepository @inject */
-		public $tag;
+    /** @var \App\Model\TagRepository @inject */
+    public $tag;
+
+    /** @var TagFormFactory @inject */
+    public $tagForm;
+
+    /** @var TagGridFactory @inject */
+    public $grid;
 		
-		/**  @var int */
-		public $tagId;
+    /**  @var int */
+    public $tagId;
 
-		public function actionCreate( $id )
-		{
-				$this->tagId = $id;
-		}
+    public function actionCreate( $id )
+    {
+        $this->tagForm->setTagId($id);
+    }
 
-		protected function createComponentGrid( $name )
-		{
-				$source = new NetteDbDataSource( $this->tag->findAll() );
+    protected function createComponentGrid( )
+    {
+        return $this->grid->createComponentGrid();
+    }
 
-				$grid = new Grid( $this, $name );
+    public function handleDelete( $id )
+    {
+        $this->tag->remove( ['id' => $id] );
+    }
 
-				$grid->setPrimaryKey( 'id' ); // primary key is now used always
+    protected function createComponentTagForm()
+    {
+        $form = $this->tagForm->create();
+        $form->onSuccess[] = $this->formSubmit;
+        return $form;
+    }
 
-				$grid->addText( 'name', 'Název' );
-
-				$grid->enablePager( 10 );
-				
-				$grid->setDataSource( $source );
-
-				$actions = $grid->addActions( 'Akce' );
-
-				$actions->addButton()
-						->setType( 'btn-primary' )
-						->setIcon( 'glyphicon-pencil' )
-						->addAttribute( 'href', new Link( ['href' => 'create', 'parameters' => ['id' => '{id}']] ) );
-
-				$actions->addButton()
-						->setType( 'btn-danger' )
-						->setIcon( 'glyphicon-remove' )
-						->setConfirm( 'Opravdu chcete odstranit prispevek' )
-						->addAttribute( 'href', new Link( ['href' => 'delete!', 'parameters' => ['id' => '{id}']] ) );
-
-				return $grid;
-		}
-
-		public function handleDelete( $id )
-		{
-				$this->tag->remove( ['id' => $id] );
-		}
-
-		protected function createComponentTagForm()
-		{
-				$form = new Form();
-				$form->addText( 'name', 'Název' )
-						->setRequired();
-
-				$form->addSubmit( 'create', 'Vytvořit' );
-
-				$form->setRenderer( new Bs3FormRenderer() );
-				
-				$data = $this->tag->find('id', $this->tagId)->fetch();
-				$form->setDefaults($data ? $data : []);
-
-				$form->onSuccess[] = $this->formSubmit;
-
-				return $form;
-		}
-
-		public function formSubmit( Form $form )
-		{
-				if( $this->tagId )
-				{
-						$this->tag->update( ['id' => $this->tagId], $form->getValues() );
-						$this->flashMessage( 'Tag upraven.', 'success' );
-				}
-				else
-				{
-						$this->tag->add( $form->getValues() );
-						$this->flashMessage( 'Tag přidán.', 'success' );
-				}
-				$this->redirect( 'Tag:default' );
-		}
+    public function formSubmit( Form $form )
+    {
+        if( $this->tagId ){
+            $this->flashMessage( 'Tag upraven.', 'success' );
+        }
+        else{
+            $this->flashMessage( 'Tag pridan.', 'success' );
+        }
+    }
 
 }

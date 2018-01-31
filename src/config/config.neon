@@ -36,6 +36,8 @@ services:
 	- App\Forms\SignFormFactory
 	- App\Forms\NewsletterForm
 	- App\Forms\UserFormFactory
+	- App\Forms\TagFormFactory
 
 	- App\Grids\UserGridFactory
+	- App\Grids\TagGridFactory
 	router: App\RouterFactory::createRouter
