@@ -25,7 +25,6 @@ class ArticleWorkflowTest extends TestCase
 
     public function testBackButton()
     {
-        dump($this->driver);
         $this->driver->findElement(WebDriverBy::id('back-to-blog'))->click();
         $this->assertEquals('http://localhost/school_blog/www/blog', $this->driver->getCurrentURL());
     }
