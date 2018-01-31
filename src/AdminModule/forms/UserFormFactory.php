@@ -44,7 +44,8 @@ class UserFormFactory extends Nette\Object
 
         $form->addText('description', 'Description:');
 
-        $form->addSubmit( 'create', 'Vytvořit' );
+        $form->addSubmit( 'create', 'Vytvořit' )
+            ->setAttribute('id', 'sumbit');
 
         if($user){
             $form->setDefaults($user);

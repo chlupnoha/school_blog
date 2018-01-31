@@ -13,26 +13,25 @@ use Test\Presenter;
 class ArticlePresenterTest extends TestCase
 {
     /** @var Presenter */
-    private $tester;
+    private $presenter;
 
     public function __construct() {
         parent::__construct();
-        $this->tester = new Presenter(Nette\Environment::getContext());
+        $this->presenter = new Presenter(Nette\Environment::getContext());
     }
 
     public function setUp() {
-        $this->tester->init('Article');
+        $this->presenter->init('Article');
     }
 
     public function testRenderDefaultWithoutURL() {
-        $res = $this->tester->test('default');
+        $res = $this->presenter->test('default');
 
         $this->assertEquals(new RedirectResponse("http:///blog"), $res);
-
     }
 
     public function testRenderDefault(){
-        $res = $this->tester->test('default', 'GET', ['url' => 'test']);
+        $res = $this->presenter->test('default', 'GET', ['url' => 'test']);
 
         $this->assertTrue($res instanceof TextResponse);
     }

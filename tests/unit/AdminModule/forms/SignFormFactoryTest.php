@@ -46,7 +46,6 @@ class SignFormFactoryTest extends TestCase
             $l = explode("\t", $line);
             $result[] = [$l[0], $l[1]];
         }
-        dump($result);
         return $result;
     }
 

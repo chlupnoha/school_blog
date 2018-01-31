@@ -47,10 +47,10 @@
                     </div>
                     <div>
                         <ul class="nav navbar-nav">
-                            <li {ifCurrent Article:default} class="active" {/ifCurrent}><a n:href="Article:default">Článek</a></li>
-                            <li {ifCurrent Category:default} class="active" {/ifCurrent}><a n:href="Category:default">Kategorie</a></li>
-                            <li {ifCurrent Tag:default} class="active" {/ifCurrent}><a n:href="Tag:default">Tag</a></li>
-                            <li {ifCurrent User:default} class="active" {/ifCurrent}><a n:href="User:default">Uživatelé</a></li>
+                            <li id="menu-articles" {ifCurrent Article:default} class="active" {/ifCurrent}><a n:href="Article:default">Článek</a></li>
+                            <li id="menu-categories" {ifCurrent Category:default} class="active" {/ifCurrent}><a n:href="Category:default">Kategorie</a></li>
+                            <li id="menu-tags" {ifCurrent Tag:default} class="active" {/ifCurrent}><a n:href="Tag:default">Tag</a></li>
+                            <li id="menu-users" {ifCurrent User:default} class="active" {/ifCurrent}><a n:href="User:default">Uživatelé</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right" style="margin-right: 30px;">
                             <li {ifCurrent Sign:out} class="active" {/ifCurrent}><a n:href="Sign:out">Log-out</a></li>

@@ -41,4 +41,5 @@ class UserRepository extends Repository implements Nette\Security\IAuthenticator
         return $this->getTable()->insert( $data );
     }
 
+
 }
