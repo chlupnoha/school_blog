@@ -12,6 +12,22 @@ class UserForm
     private $descriptionId = 'frm-userForm-description';
     private $buttonId = '//*[@id="sumbit"]';
 
+    /**
+     * @return string
+     */
+    public function getNameId()
+    {
+        return $this->nameId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescriptionId()
+    {
+        return $this->descriptionId;
+    }
+
     /** @var WebDriver */
     private $driver;
 
@@ -20,9 +36,15 @@ class UserForm
         $this->driver = $driver;
     }
 
+    public function updateForm($name, $description, $submit = false){
+        $this->fillForm($name, null, $description, $submit);
+    }
+
     public function fillForm($name, $password, $description, $submit = false){
         $this->driver->findElement(WebDriverBy::id($this->nameId))->sendKeys($name);
-        $this->driver->findElement(WebDriverBy::id($this->passwordId))->sendKeys($password);
+        if($password){
+            $this->driver->findElement(WebDriverBy::id($this->passwordId))->sendKeys($password);
+        }
         $this->driver->findElement(WebDriverBy::id($this->descriptionId))->sendKeys($description);
         if($submit){
             $this->driver->findElement(WebDriverBy::xpath($this->buttonId))->click();

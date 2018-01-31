@@ -39,8 +39,8 @@ class UserPageWorkflowTest extends TestCase
         $loginForm = new SignUpForm($this->driver);
         $loginForm->login();
 
-        $this->clickUserTab();
         $this->userManager->add($this->userData);
+        $this->clickUserTab();
     }
 
     /** @dataProvider invalidUsersProvider */
@@ -51,26 +51,29 @@ class UserPageWorkflowTest extends TestCase
         $this->assertEquals($error, $this->driver->switchTo()->alert()->getText());
     }
 
-//    public function testDeleteUser(){
-//
-//        //todo create user
-//        //
-//        //$this->driver->get('http://localhost/school_blog/www/admin/');
-//
-//    }
-//
-//    public function testEditUser(){
-//        //todo create user
-//        //
-//        //$this->driver->get('http://localhost/school_blog/www/admin/');
-//
-//    }
+    public function testDeleteUser(){
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="grid-1000"]/td[3]/div/a[2]'))->click();
+        $this->driver->switchTo()->alert()->accept();
+        sleep(1);
+
+        $this->assertEquals(0, $this->userManager->find('id', '1000')->count());
+    }
+
+    public function testEditUser(){
+        $this->driver->findElement(WebDriverBy::xpath('//*[@id="grid-1000"]/td[3]/div/a[1]'))->click();
+
+        $userForm = new UserForm($this->driver);
+        $name = $this->driver->findElement(WebDriverBy::id($userForm->getNameId()))->getText();
+        $userForm->updateForm($name, 'updateDescription', true);
+
+        $updatedUser = $this->userManager->find('id', '1000')->fetch();
+        $this->assertEquals(['name', 'updateDescription'], [$updatedUser->name, $updatedUser->description]);
+    }
 
     public function invalidUsersProvider(){
         $users = array();
         $users[] = ['name', '', 'description', 'Please enter your password.'];
         $users[] = ['', 'password', 'description', 'Please enter your username.'];
-        dump($users);
         return $users;
     }
 
@@ -87,6 +90,5 @@ class UserPageWorkflowTest extends TestCase
         $this->userManager->remove(['id' => 1000]);
         $this->driver->quit();
     }
-
 
 }
