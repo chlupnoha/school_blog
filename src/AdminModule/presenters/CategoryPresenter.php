@@ -2,6 +2,8 @@
 
 namespace App\AdminModule\Presenters;
 
+use App\Forms\CategoryFormFactory;
+use App\Grids\CategoryGridFactory;
 use Nette\Application\UI\Form;
 use Nextras\Forms\Rendering\Bs3FormRenderer;
 use Mesour\DataGrid\NetteDbDataSource,
@@ -14,85 +16,45 @@ use Mesour\DataGrid\NetteDbDataSource,
 class CategoryPresenter extends BaseAdminPresenter
 {
 
-		/** @var \App\Model\CategoryRepository @inject */
-		public $category;
-		
-		/** @var int */
-		public $categoryId;
+    /** @var \App\Model\CategoryRepository @inject */
+    public $category;
 
-		public function actionCreate( $id )
-		{
-				$this->categoryId = $id;
-//				dump( $this->categoryId );
-		}
+    /** @var CategoryGridFactory @inject */
+    public $grid;
 
-		protected function createComponentGrid( $name )
-		{
-				$source = new NetteDbDataSource( $this->category->findAll() );
+    /** @var CategoryFormFactory @inject */
+    public $categoryForm;
 
-				$grid = new Grid( $this, $name );
+    public function actionCreate( $id )
+    {
+        $this->categoryForm->setCategoryId($id);
+    }
 
-				$grid->setPrimaryKey( 'id' ); // primary key is now used always
+    protected function createComponentGrid( )
+    {
+        return $this->grid->createComponentGrid();
+    }
 
-				$grid->addText( 'name', 'Název' );
+    public function handleDelete( $id )
+    {
+        $this->category->remove( ['id' => $id] );
+    }
 
-				$grid->enablePager( 10 );
-				
-				$grid->setDataSource( $source );
+    protected function createComponentCategoryForm()
+    {
+        $form = $this->categoryForm->create();
+        $form->onSuccess[] = $this->formSubmit;
+        return $form;
+    }
 
-				$actions = $grid->addActions( 'Akce' );
 
-				$actions->addButton()
-						->setType( 'btn-primary' )
-						->setIcon( 'glyphicon-pencil' )
-						->addAttribute( 'href', new Link( ['href' => 'create', 'parameters' => ['id' => '{id}']] ) );
-
-				$actions->addButton()
-						->setType( 'btn-danger' )
-						->setIcon( 'glyphicon-remove' )
-						->setConfirm( 'Opravdu chcete odstranit prispevek' )
-						->addAttribute( 'href', new Link( ['href' => 'delete!', 'parameters' => ['id' => '{id}']] ) );
-
-				return $grid;
-		}
-
-		public function handleDelete( $id )
-		{
-				$this->category->remove( ['id' => $id] );
-		}
-
-		protected function createComponentCategoryForm()
-		{
-				$form = new Form();
-				$form->addText( 'name', 'Název' )
-						->setRequired();
-
-				$form->addSubmit( 'create', 'Vytvořit' )
-						->setAttribute( 'id', 'submit' );
-
-				$form->setRenderer( new Bs3FormRenderer() );
-				
-				$data = $this->category->find('id', $this->categoryId)->fetch();
-				$form->setDefaults($data ? $data : []);
-
-				$form->onSuccess[] = $this->formSubmit;
-
-				return $form;
-		}
-
-		public function formSubmit( Form $form )
-		{
-				if( $this->categoryId )
-				{
-						$this->category->update( ['id' => $this->categoryId], $form->getValues() );
-						$this->flashMessage( 'Kategorie upravena.', 'success' );
-				}
-				else
-				{
-						$this->category->add( $form->getValues() );
-						$this->flashMessage( 'Kategorie přidána.', 'success' );
-				}
-				$this->redirect( 'Category:default' );
-		}
+    public function formSubmit( Form $form )
+    {
+        if( $this->categoryForm->getCategoryId() ){
+            $this->flashMessage( 'Kategorie upravena.', 'success' );
+        }else{
+            $this->flashMessage( 'Kategorie pridana.', 'success' );
+        }
+    }
 
 }

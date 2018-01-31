@@ -8,6 +8,7 @@ use App\Model\TagRepository;
 use App\Model\UserRepository;
 use Nette\Environment;
 use PHPUnit\Framework\TestCase;
+use Test\PageObject\TagForm;
 
 require __DIR__ . '/../../../bootstrap.php';
 
@@ -22,8 +23,8 @@ class TagFormFactoryTest extends TestCase
 
     public function __construct() {
         parent::__construct();
-        $this->tagForm = Environment::getContext()->getByType(UserFormFactory::class);
-        $this->tagRepository = Environment::getContext()->getByType(UserRepository::class);
+        $this->tagForm = Environment::getContext()->getByType(TagFormFactory::class);
+        $this->tagRepository = Environment::getContext()->getByType(TagRepository::class);
     }
 
     protected function setUp()

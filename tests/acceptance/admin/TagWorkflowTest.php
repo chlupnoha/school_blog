@@ -21,7 +21,7 @@ class TagWorkflowTest extends TestCase
     /** @var  RemoteWebDriver */
     public $driver;
 
-    /** @var UserRepository */
+    /** @var TagRepository */
     private $tagRepository;
 
     private $tagData = ['id' => 1000, 'name' => 'testTag'];
@@ -47,8 +47,8 @@ class TagWorkflowTest extends TestCase
 
     public function testCheckMandatoryForNewTag(){
         $this->clickAddNewTag();
-        $userForm = new TagForm($this->driver);
-        $userForm->fillForm("", true);
+        $tagForm = new TagForm($this->driver);
+        $tagForm->fillForm("", true);
         $this->assertEquals("This field is required.", $this->driver->switchTo()->alert()->getText());
     }
 
@@ -63,8 +63,8 @@ class TagWorkflowTest extends TestCase
     public function testEditTag(){
         $this->driver->findElement(WebDriverBy::xpath('//*//*[@id="grid-1000"]/td[2]/div/a[1]'))->click();
 
-        $userForm = new TagForm($this->driver);
-        $userForm->fillForm('Update', true);
+        $tagForm = new TagForm($this->driver);
+        $tagForm->fillForm('Update', true);
 
         $updatedUser = $this->tagRepository->find('id', '1000')->fetch();
         $this->assertEquals(['testTagUpdate'], [$updatedUser->name]);

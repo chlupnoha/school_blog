@@ -37,7 +37,10 @@ services:
 	- App\Forms\NewsletterForm
 	- App\Forms\UserFormFactory
 	- App\Forms\TagFormFactory
+	- App\Forms\CategoryFormFactory
 
 	- App\Grids\UserGridFactory
 	- App\Grids\TagGridFactory
+	- App\Grids\CategoryGridFactory
+
 	router: App\RouterFactory::createRouter
