@@ -22,15 +22,15 @@ class SignFormFactoryTest extends TestCase
     /** @var User */
     private $user;
 
-    public function __construct() {
-        parent::__construct();
+    public function __construct($name = NULL, array $data = array(), $dataName = '') {
         $this->signInForm = Environment::getContext()->getByType(SignFormFactory::class);
         $this->userManager = Environment::getContext()->getByType(UserRepository::class);
         $this->user = Environment::getContext()->getByType(User::class);
+        parent::__construct(...func_get_args());
     }
 
     /** @dataProvider invalidLoginProvider */
-    public function testInvalidLogin($name, $password){
+    public function testInvalidLogins($name, $password){
         $this->signInForm->create()->setDefaults([
             'username' => $name,
             'password' => $password
@@ -41,8 +41,9 @@ class SignFormFactoryTest extends TestCase
 
     public static function invalidLoginProvider(){
         $result = array();
-        $logins = file_get_contents(__DIR__ . "/../logins.txt");
-        foreach (explode("  ", $logins) as $l){
+        $logins = file_get_contents(__DIR__ . "/../../allpairs/logins.txt");
+        foreach (explode("\n", $logins) as $line){
+            $l = explode("\t", $line);
             $result[] = [$l[0], $l[1]];
         }
         dump($result);
