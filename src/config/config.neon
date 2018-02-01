@@ -38,6 +38,7 @@ services:
 	- App\Forms\UserFormFactory
 	- App\Forms\TagFormFactory
 	- App\Forms\CategoryFormFactory
+	- App\Forms\ArticleFormFactory
 
 	- App\Grids\UserGridFactory
 	- App\Grids\TagGridFactory

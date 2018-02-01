@@ -2,6 +2,7 @@
 
 namespace App\AdminModule\Presenters;
 
+use App\Forms\ArticleFormFactory;
 use Nette\Application\UI\Form;
 use Nextras\Forms\Rendering\Bs3FormRenderer;
 use Mesour\DataGrid\NetteDbDataSource,
@@ -26,19 +27,21 @@ class ArticlePresenter extends BaseAdminPresenter
 	  /** @var \App\Model\Article_tagRepository @inject */
 	  public $articleTag;
 
-	  /** @var int */
+    /** @var ArticleFormFactory @inject */
+    public $articleForm;
+
+    /** @var int */
 	  public $articleId;
 
 	  public function actionCreate( $id )
 	  {
-			$this->articleId = $id;
-			$data = $this->article->find( 'id', $this->articleId )->fetch();
+			$this->articleForm->setArticleId($id);
+			$data = $this->article->find( 'id', $id )->fetch();
 			$this->template->article = $data ? $data : null;
 	  }
 
 	  protected function createComponentGrid( $name )
 	  {
-//				$source = new NetteDbDataSource( $this->article->findAll() );
 			$res = [];
 			foreach( $this->article->findAll()->order( 'sort' ) as $d )
 			{
@@ -118,70 +121,21 @@ class ArticlePresenter extends BaseAdminPresenter
 
 	  protected function createComponentArticleForm()
 	  {
-			$form = new Form();
-			$form->addText( 'title', 'Název' )->setRequired();
-			$form->addText( 'meta_title', 'Meta title' );
-			$form->addText( 'meta_description', 'Meta desctiption' );
-			$form->addText( 'meta_keywords', 'Meta keywords' );
-			$form->addText( 'url', 'URL' )->setRequired();
-			$form->addSelect( 'category_id', 'Kategorie', $this->category->fetchPairsSelectBox() )->setPrompt( "Žádná kategorie" );
-			$form->addMultiSelect( 'tag_id', 'Tagy', $this->tag->fetchPairsSelectBox() );
-			$form->addUpload( 'picture_id', 'Hlavní obrázek' );
-			$form->addUpload( 'picture_blog_id', 'Blog obrázek' );
-			$form->addTextArea( 'description', 'Popis' );
-			$form->addTextArea( 'content', 'Obsah' );
-			$form->addSelect( 'most_readed', 'Nejčtenější', [0 => 'Ne', 1 => 'Ano'] );
-			$form->addSelect( 'published', 'Publikovat', [0 => 'Ne', 1 => 'Ano'] );
-			$form->addSelect( 'dont_publish_detail', 'Nepublikovat detail', [0 => 'Ne', 1 => 'Ano'] );
-
-			$form->addSubmit( 'create', 'Vytvořit' );
-
-			$form->setRenderer( new Bs3FormRenderer() );
-
-			$data = $this->article->find( 'id', $this->articleId )->fetch();
-			$form->setDefaults( $data ? $data : []  );
-			$form->setDefaults( ['tag_id' => array_keys( $this->articleTag->find( 'article_id', $this->articleId )->fetchPairs( 'tag_id' ) )] );
-
+			$form = $this->articleForm->create();
 			$form->onSuccess[] = $this->formSubmit;
-
 			return $form;
 	  }
 
 	  public function formSubmit( Form $form )
 	  {
-			$data = $form->getValues();
-			$tags = $data['tag_id'];
-			unset( $data['tag_id'] );
+        if( $this->articleForm->getArticleId() )
+        {
+              $this->flashMessage( 'Článek upraven.', 'success' );
+        }else{
+              $this->flashMessage( 'Článek přidán.', 'success' );
+        }
 
-			if( $this->articleId )
-			{
-				  $this->article->updateForForm( ['id' => $this->articleId], $data, $tags );
-				  $this->flashMessage( 'Článek upraven.', 'success' );
-			}
-			else
-			{
-				  $this->article->add( $data, $tags )->getPrimary();
-				  $this->flashMessage( 'Článek přidán.', 'success' );
-			}
-			
-			$this->scrapePageForFacebook($this->getHttpRequest()->url->baseUrl . $data['url']);
-			
-			$this->redirect( 'Article:default' );
+        $this->redirect( 'Article:default' );
 	  }
 
-	  public function scrapePageForFacebook($url){
-						$vars = array('id' =>  $url, 'scrape' => 'true');
-						$body = http_build_query($vars);
-			
-						$fp = fsockopen('ssl://graph.facebook.com', 443);
-						fwrite($fp, "POST / HTTP/1.1\r\n");
-						fwrite($fp, "Host: graph.facebook.com\r\n");
-						fwrite($fp, "Content-Type: application/x-www-form-urlencoded\r\n");
-						fwrite($fp, "Content-Length: ".strlen($body)."\r\n");
-						fwrite($fp, "Connection: close\r\n");
-						fwrite($fp, "\r\n");
-						fwrite($fp, $body);
-						fclose($fp);			
-	  }
-	  
 }

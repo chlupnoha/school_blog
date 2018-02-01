@@ -53,7 +53,7 @@ class PictureRepository extends Repository
 
 		public function tryUpload( $picture, $width = null, $height = null )
 		{
-				if( $picture->isImage() )
+				if( $picture && $picture->isImage() )
 				{
 						$image = $picture->toImage();
 						return $this->uploadPicture( $image, null, $width, $height );
