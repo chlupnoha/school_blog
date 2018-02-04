@@ -40,3 +40,20 @@ License
 -------
 - Nette: New BSD License or GPL 2.0 or 3.0 (http://nette.org/license)
 - Adminer: Apache License 2.0 or GPL 2 (http://www.adminer.org)
+
+
+Notes for submission
+-------
+
+Boundary Values And Equivalence
+- Classes Analysis
+-- Boundary values and equivalence classes are in ArticleFormPageWorkFlow in case of Image max size
+- Input Data Combination 
+-- Many cases from data provider
+- Process Testing Design test case scenarios for 
+-- //todo ??? - dunno exactly what I created
+- Data Consistency Testing Design test case scenarios 
+-- Every WorkflowTest
+- Test Case Scenarios 
+-- Workflow tests
+- Selected automated tests: Automated Tests - Option 3 - Both Front-End and Unit Tests

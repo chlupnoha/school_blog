@@ -23,9 +23,8 @@ class ArticleRepository extends Repository
             $this->articleTag = new Article_tagRepository( $db );
       }
 
-      public function add( $data, $tags = null )
+      public function add( $data, $tags = [] )
       {
-
             $data[ 'picture_id' ] = $this->picture->tryUpload( $data[ 'picture_id' ], 700 );
             $data[ 'picture_blog_id' ] = $this->picture->tryUpload( $data[ 'picture_blog_id' ], 240, 140 );
             $data[ 'published_on' ] = $data[ 'published' ] ? date( "Y-m-d H:i:s" ) : null;

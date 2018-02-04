@@ -2,6 +2,7 @@
 
 namespace Test\PageObject;
 
+use Facebook\WebDriver\Remote\LocalFileDetector;
 use Facebook\WebDriver\WebDriver;
 use Facebook\WebDriver\WebDriverBy;
 
@@ -19,12 +20,12 @@ class ArticleForm
     private $pictureBlogId = 'frm-articleForm-picture_blog_id';
 
     private $descriptionId = 'frm-articleForm-description';
-    private $contentId = 'frm-articleForm-content';
+    private $contentXPath = '//*[@id="frm-articleForm"]/div[11]/div[2]/div/div[3]/div[2]';
     private $mostReadedId = 'frm-articleForm-most_readed';
     private $publishedId = 'frm-articleForm-published';
 
     private $notPublishDetail = 'frm-articleForm-dont_publish_detail';
-    private $submitId = 'submit';
+    private $submitId = 'sumbit';
 
     /** @var WebDriver */
     private $driver;
@@ -42,8 +43,8 @@ class ArticleForm
         $url,
         $categoryId,
         $tagIds,
-        $picture,
-        $pictureBlog,
+        $picturePath,
+        $pictureBlogPath,
         $description,
         $content,
         $mostReaded,
@@ -59,17 +60,26 @@ class ArticleForm
 
         $this->driver->findElement(WebDriverBy::id($this->categoryId))->sendKeys($categoryId);
         $this->driver->findElement(WebDriverBy::id($this->tagId))->sendKeys($tagIds);
-        $this->driver->findElement(WebDriverBy::id($this->pictureId))->sendKeys($picture);
-        $this->driver->findElement(WebDriverBy::id($this->pictureBlogId))->sendKeys($pictureBlog);
-        $this->driver->findElement(WebDriverBy::id($this->descriptionId))->sendKeys($description);
 
-        $this->driver->findElement(WebDriverBy::id($this->contentId))->sendKeys($content);
+        //image upload is not working in selenium
+        if($picturePath){
+            $this->driver->findElement(WebDriverBy::id($this->pictureId))
+                ->setFileDetector(new LocalFileDetector())->sendKeys($picturePath);
+        }
+
+        if($pictureBlogPath){
+            $this->driver->findElement(WebDriverBy::id($this->pictureBlogId))
+                ->setFileDetector(new LocalFileDetector())->sendKeys($pictureBlogPath);
+        }
+
+        $this->driver->findElement(WebDriverBy::id($this->descriptionId))->sendKeys($description);
+        $this->driver->findElement(WebDriverBy::xpath($this->contentXPath))->sendKeys($content);
         $this->driver->findElement(WebDriverBy::id($this->mostReadedId))->sendKeys($mostReaded);
         $this->driver->findElement(WebDriverBy::id($this->publishedId))->sendKeys($published);
         $this->driver->findElement(WebDriverBy::id($this->notPublishDetail))->sendKeys($notPublished);
 
         if($submit){
-            $this->driver->findElement(WebDriverBy::xpath($this->submitId))->click();
+            $this->driver->findElement(WebDriverBy::id($this->submitId))->click();
         }
     }
 
